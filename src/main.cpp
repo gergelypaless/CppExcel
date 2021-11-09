@@ -15,7 +15,7 @@ int main(int argc, char** argv)
 	std::cout << argv[0] << std::endl;
 
 	std::unique_ptr<Table> table;
-	if (argc > 0)
+	if (argc > 1)
 	{
 		try
 		{

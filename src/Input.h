@@ -11,7 +11,7 @@ class Input
 {
 public:
 	/*
-	 * reads input from an istream is, writes information to the user to the ostream os 
+	 * reads input from an istream is, writes information to the user to the ostream os
 	 * 
 	 * @param is	the istream to read input from
 	 * @param os	the ostream to write information to

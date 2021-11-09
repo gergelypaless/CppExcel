@@ -1,0 +1,9 @@
+edit A1 Zsomborrrr
+add 1 rows
+delete 4
+insert 1 cols after B
+sort by A desc
+swap B3 B1
+align B1:D3 right
+clear A2:B1
+exit
