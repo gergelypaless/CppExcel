@@ -1,4 +1,4 @@
-./build/CppExcel
+./build/Release/CppExcel
 Table:
  |A      |B   |C            |
 -----------------------------
