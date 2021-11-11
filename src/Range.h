@@ -1,5 +1,7 @@
 #pragma once
 
+#include "utils.h"
+
 #include <vector>
 #include <algorithm>
 #include <cmath>
@@ -9,6 +11,17 @@
  */
 class Range
 {
+public:
+	static Range Create(const std::string& rangeStr)
+	{
+		const auto& rangeTokens = SplitString(rangeStr, ":");
+		size_t cell1Row = ConvertStringToUInt(rangeTokens[0].substr(1, rangeTokens[0].size() - 1)) - 1;
+		size_t cell1Col = ConvertColLetterToNumber(rangeTokens[0][0]);
+		size_t cell2Row = ConvertStringToUInt(rangeTokens[1].substr(1, rangeTokens[1].size() - 1)) - 1;
+		size_t cell2Col = ConvertColLetterToNumber(rangeTokens[1][0]);
+		return {cell1Row, cell1Col, cell2Row, cell2Col};
+	}
+	
 public:
 	Range(size_t cell1Row, size_t cell1Col, size_t cell2Row, size_t cell2Col)
 	{

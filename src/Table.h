@@ -152,7 +152,25 @@ public:
 	 */
 	Row& operator[](size_t idx);
 	const Row& operator[](size_t idx) const;
-
+	
+	void Traverse(const Range& range, std::invocable<Cell&> auto someFunction)
+	{
+		auto [topLeftRow, topLeftCol] = range.GetTopLeftCorner();
+		auto [bottomRightRow, bottomRightCol] = range.GetBottomRightCorner();
+		for (size_t i = topLeftRow; i <= bottomRightRow; i++)
+			for (size_t j = topLeftCol; j <= bottomRightCol; j++)
+				someFunction(rows[i][j]);
+	}
+	
+	void Traverse(const Range& range, std::invocable<const Cell&> auto someFunction) const
+	{
+		auto [topLeftRow, topLeftCol] = range.GetTopLeftCorner();
+		auto [bottomRightRow, bottomRightCol] = range.GetBottomRightCorner();
+		for (size_t i = topLeftRow; i <= bottomRightRow; i++)
+			for (size_t j = topLeftCol; j <= bottomRightCol; j++)
+				someFunction(rows[i][j]);
+	}
+	
 private:
 	std::pair<std::vector<size_t>, size_t> CalculateColsWidth() const;
 	

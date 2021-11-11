@@ -8,19 +8,22 @@
 #include <fstream>
 #include <memory>
 
+// forward declaration
+class Table;
+
 /*
  * this class represents a cell in the table
  */
 class Cell
 {
 public:
-	Cell() : content(CellContent::Create("")), alignment(Alignment::LEFT) { }
-	explicit Cell(const std::string& content) : content(CellContent::Create(content)), alignment(Alignment::LEFT) { }
+	explicit Cell(Table& table);
+	Cell(const std::string& content, Table& table);
 	
 	Cell(const Cell& other) = delete;
 	Cell& operator=(const Cell& other) = delete;
 
-	Cell(Cell&& other) noexcept : content(std::move(other.content)), alignment(other.alignment) { }
+	Cell(Cell&& other) noexcept;
 	Cell& operator=(Cell&& other) noexcept;
 	
 	/* 
@@ -74,4 +77,5 @@ public:
 private:
 	std::unique_ptr<CellContent> content;
 	Alignment alignment;
+	Table& table;
 };

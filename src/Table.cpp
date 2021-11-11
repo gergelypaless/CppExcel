@@ -4,13 +4,13 @@
 
 Table::Table()
 {
-	rows.emplace_back();
+	rows.emplace_back(this);
 }
 
 void Table::AddRows(size_t N)
 {
 	for (size_t i = 0; i < N; ++i)
-		rows.emplace_back();
+		rows.emplace_back(this);
 }
 
 void Table::AddCols(size_t N)
@@ -48,7 +48,7 @@ void Table::InsertRowsBefore(size_t index, size_t N)
 		throw std::invalid_argument("Error: you cannot insert rows there. Specified index is too big.");
 	
 	for (size_t i = 0; i < N; ++i)
-		rows.insert(rows.begin() + index + i, Row());
+		rows.insert(rows.begin() + index + i, Row(this));
 }
 
 void Table::InsertRowsAfter(size_t index, size_t N)
@@ -133,16 +133,9 @@ const Row& Table::operator[](size_t idx) const
 
 void Table::SetAlignmentInRange(const Range& range, Alignment alignment)
 {
-	auto [topLeftRow, topLeftCol] = range.GetTopLeftCorner();
-	auto [bottomRightRow, bottomRightCol] = range.GetBottomRightCorner();
-
-	for (size_t i = topLeftRow; i <= bottomRightRow; i++)
-	{
-		for (size_t j = topLeftCol; j <= bottomRightCol; j++)
-		{
-			rows[i][j].SetAlignment(alignment);
-		}
-	}
+	Traverse(range, [=](Cell& cell) {
+		cell.SetAlignment(alignment);
+	});
 }
 
 void Table::ClearRange(const Range& range)

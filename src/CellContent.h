@@ -1,15 +1,22 @@
 #pragma once
 
+#include "Range.h"
+
 #include <string>
 #include <memory>
 #include <fstream>
 #include <utility>
+#include <sstream>
+#include <iomanip>
+
+// forward declaration
+class Table;
 
 
 class CellContent
 {
 public:
-	static std::unique_ptr<CellContent> Create(const std::string& cellContentStr);
+	static std::unique_ptr<CellContent> Create(const std::string& cellContentStr, Table& table);
 	
 public:
 	CellContent() = default;
@@ -43,23 +50,30 @@ private:
 class FunctionCellContent : public CellContent
 {
 public:
-	explicit FunctionCellContent(std::string contentStr) : function(std::move(contentStr)) {}
+	FunctionCellContent(std::string contentStr, Table& table) : function(std::move(contentStr)), table(table) {}
 	
 	std::string GetContentValue() const override
 	{
-		return Evaluate();
+		std::stringstream ss;
+		ss << std::fixed << std::setprecision(3) << Evaluate();
+		return ss.str();
 	}
 	
-	std::string Evaluate() const;
+	long double Evaluate() const;
 	
 	void SaveToFile(std::ofstream& ofs) const override
 	{
 		ofs << function;
 	}
 	
+	long double CalculateSumFunction(const Range& range) const;
+	long double CalculateAvgFunction(const Range& range) const;
+	long double CalculateMinFunction(const Range& range) const;
+	long double CalculateMaxFunction(const Range& range) const;
+	
 private:
 	std::string function;
-	
+	Table& table;
 };
 
 std::ofstream& operator<<(std::ofstream& ofs, const CellContent& cellContent);

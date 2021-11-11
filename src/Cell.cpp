@@ -2,6 +2,18 @@
 
 #include "utils.h"
 
+Cell::Cell(Table& table) : content(CellContent::Create("", table)), alignment(Alignment::LEFT), table(table)
+{
+
+}
+
+Cell::Cell(const std::string& content, Table& table) : content(CellContent::Create(content, table)), alignment(Alignment::LEFT), table(table)
+{
+
+}
+
+Cell::Cell(Cell&& other) noexcept: content(std::move(other.content)), alignment(other.alignment), table(other.table) { }
+
 Cell& Cell::operator=(Cell&& other) noexcept
 {
 	std::swap(content, other.content);
@@ -21,7 +33,7 @@ std::string Cell::GetContent() const
 
 void Cell::SetContent(const std::string& newContent)
 {
-	content = CellContent::Create(newContent);
+	content = CellContent::Create(newContent, table);
 }
 
 void Cell::Print(std::ostream& os, size_t cellMaxLength) const
@@ -35,7 +47,7 @@ void Cell::Print(std::ostream& os, size_t cellMaxLength) const
 
 void Cell:: SaveToFile(std::ofstream& ofs) const
 {
-	ofs << content;
+	ofs << *content;
 }
 
 bool Cell::operator<(const Cell& other) const

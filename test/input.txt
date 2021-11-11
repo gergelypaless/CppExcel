@@ -6,4 +6,11 @@ sort by A desc
 swap B3 B1
 align B1:D3 right
 clear A2:B1
+edit C1 41
+edit B2 5
+edit C3 text
+edit A1 =SUM(B1:C3)
+edit A2 =AVG(B1:C3)
+edit A3 =MIN(B1:C3)
+edit A4 =MAX(B1:C3)
 exit

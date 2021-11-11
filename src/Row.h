@@ -8,6 +8,10 @@
 #include <fstream>
 #include <algorithm>
 
+// forward declaration
+class Table;
+
+
 /*
  * this class  represents a row 
  */
@@ -42,7 +46,12 @@ public:
 	 */
 	static void DecreaseRowLength(size_t N);
 public:
-	Row();
+	Row(Table* table);
+	Row(const Row& other) = delete;
+	Row& operator=(const Row& other) = delete;
+	
+	Row(Row&& other) noexcept : cells(std::move(other.cells)), table(other.table) {}
+	Row& operator=(Row&& other) noexcept;
 	
 	/*
 	 * deletes a cell at cellNumber
@@ -100,6 +109,7 @@ public:
 
 private:
 	std::vector<Cell> cells;
+	Table* table;
 };
 
 

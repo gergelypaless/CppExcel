@@ -32,11 +32,11 @@ void Row::DecreaseRowLength(size_t N)
 	rowLength -= N;
 }
 
-Row::Row()
+Row::Row(Table* table) : table(table)
 {
 	cells.reserve(rowMaxLength);
 	for (size_t i = 0; i < rowLength; ++i)
-		cells.emplace_back();
+		cells.emplace_back(*table);
 }
 
 void Row::DeleteCell(size_t cellNumber)
@@ -47,7 +47,7 @@ void Row::DeleteCell(size_t cellNumber)
 void Row::InsertColsBefore(size_t index, size_t N)
 {
 	for (size_t i = 0; i < N; ++i)
-		cells.insert(cells.begin() + index + i, Cell());
+		cells.insert(cells.begin() + index + i, Cell(*table));
 }
 
 void Row::InsertColsAfter(size_t index, size_t N)
@@ -80,7 +80,7 @@ const Cell& Row::operator[](size_t col) const
 void Row::Grow(size_t N)
 {
 	for (size_t i = 0; i < N; ++i)
-		cells.emplace_back();
+		cells.emplace_back(*table);
 }
 
 
@@ -92,4 +92,11 @@ void Row::SaveToFile(std::ofstream& ofs, char sep) const
 		ofs << sep;
 	}
 	cells.back().SaveToFile(ofs);
+}
+
+Row& Row::operator=(Row&& other) noexcept
+{
+	std::swap(cells, other.cells);
+	std::swap(table, other.table);
+	return *this;
 }
