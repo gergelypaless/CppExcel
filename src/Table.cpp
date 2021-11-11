@@ -47,7 +47,8 @@ void Table::InsertRowsBefore(size_t index, size_t N)
 	if (index > rows.size())
 		throw std::invalid_argument("Error: you cannot insert rows there. Specified index is too big.");
 	
-	rows.insert(rows.begin() + index, N, Row());
+	for (size_t i = 0; i < N; ++i)
+		rows.insert(rows.begin() + index + i, Row());
 }
 
 void Table::InsertRowsAfter(size_t index, size_t N)

@@ -25,7 +25,8 @@ set(HEADERS
         src/Row.h
         src/SortDirection.h
         src/Table.h
-        src/utils.h)
+        src/utils.h
+        src/CellContent.h)
 
 set(SOURCES
         src/Cell.cpp
@@ -35,7 +36,8 @@ set(SOURCES
         src/Range.cpp
         src/Row.cpp
         src/Table.cpp
-        src/utils.cpp)
+        src/utils.cpp
+        src/CellContent.cpp)
 
 add_executable(${EXECUTABLE_NAME} ${HEADERS} ${SOURCES})
 

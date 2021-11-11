@@ -1,10 +1,12 @@
 #pragma once
 
 #include "Alignment.h"
+#include "CellContent.h"
 
 #include <string>
 #include <ostream>
 #include <fstream>
+#include <memory>
 
 /*
  * this class represents a cell in the table
@@ -12,12 +14,15 @@
 class Cell
 {
 public:
-	Cell() : content(""), alignment(Alignment::LEFT) { }
-	explicit Cell(const std::string& content) : content(content), alignment(Alignment::LEFT) { }
+	Cell() : content(CellContent::Create("")), alignment(Alignment::LEFT) { }
+	explicit Cell(const std::string& content) : content(CellContent::Create(content)), alignment(Alignment::LEFT) { }
 	
-	Cell(const Cell& other) = default;
-	Cell& operator=(const Cell& other) = default;
+	Cell(const Cell& other) = delete;
+	Cell& operator=(const Cell& other) = delete;
 
+	Cell(Cell&& other) noexcept : content(std::move(other.content)), alignment(other.alignment) { }
+	Cell& operator=(Cell&& other) noexcept;
+	
 	/* 
 	 * clears the cell
 	 */
@@ -26,7 +31,7 @@ public:
 	/*
 	 * returns the cell's content
 	 */
-	const std::string& GetContent() const;
+	std::string GetContent() const;
 
 	/*
 	 * sets the cell's content
@@ -67,6 +72,6 @@ public:
 	}
 
 private:
-	std::string content;
+	std::unique_ptr<CellContent> content;
 	Alignment alignment;
 };

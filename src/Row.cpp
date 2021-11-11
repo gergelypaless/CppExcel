@@ -46,7 +46,8 @@ void Row::DeleteCell(size_t cellNumber)
 
 void Row::InsertColsBefore(size_t index, size_t N)
 {
-	cells.insert(cells.begin() + index, N, Cell());
+	for (size_t i = 0; i < N; ++i)
+		cells.insert(cells.begin() + index + i, Cell());
 }
 
 void Row::InsertColsAfter(size_t index, size_t N)
