@@ -13,4 +13,6 @@ edit A1 =SUM(B1:C3)
 edit A2 =AVG(B1:C3)
 edit A3 =MIN(B1:C3)
 edit A4 =MAX(B1:C3)
+edit B1 =SUM(A1:B4)
+edit B2 =AVG(C2:E5)
 exit
