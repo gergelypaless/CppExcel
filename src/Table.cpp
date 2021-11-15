@@ -2,6 +2,10 @@
 
 #include "utils.h"
 
+#include <unordered_map>
+#include <set>
+
+
 Table::Table()
 {
 	rows.emplace_back(this);
@@ -98,9 +102,40 @@ std::pair<std::vector<size_t>, size_t> Table::CalculateColsWidth() const
 	return { colWidths, all };
 }
 
+void Table::EvaluateCells()
+{
+	std::set<CellContent*> functionMap;
+	for (auto& row : rows)
+		row.ResetEvaluated(functionMap);
+	
+	size_t updated = -1;
+	while (!functionMap.empty() && updated > 0)
+	{
+		updated = 0;
+		auto first = functionMap.begin();
+		while (first != functionMap.end())
+		{
+			if ((**first).Evaluate())
+			{
+				first = functionMap.erase(first);
+				updated++;
+			}
+			else
+			{
+				first++;
+			}
+		}
+	}
+	
+	if (updated == 0 && !functionMap.empty())
+		std::for_each(functionMap.begin(), functionMap.end(), [] (CellContent* cellContent) { static_cast<FunctionCellContent*>(cellContent)->SetInCycle(); });
+}
+
 // os: most of the time it is std::cout
 void Table::Print(std::ostream& os)
 {
+	EvaluateCells();
+	
 	auto[colWidths, allSum] = CalculateColsWidth();
 	size_t firstColWidth = StringLengthOf(rows.size());
 

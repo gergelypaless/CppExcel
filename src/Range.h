@@ -5,6 +5,7 @@
 #include <vector>
 #include <algorithm>
 #include <cmath>
+#include <fstream>
 
 /*
  * this class represents a range in the table
@@ -43,6 +44,11 @@ public:
 	{
 		return bottomRight;
 	}
+	
+	void SaveToFile(std::ofstream& ofs) const
+	{
+		ofs << ConvertNumberToColLetter(topLeft.second) << topLeft.first  << ":" << ConvertNumberToColLetter(bottomRight.second) << bottomRight.first;
+	}
 
 private:
 	/*
@@ -54,3 +60,5 @@ private:
 	std::pair<size_t, size_t> topLeft;
 	std::pair<size_t, size_t> bottomRight;
 };
+
+std::ofstream& operator<<(std::ofstream& ofs, const Range& range);

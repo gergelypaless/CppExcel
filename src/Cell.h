@@ -7,6 +7,7 @@
 #include <ostream>
 #include <fstream>
 #include <memory>
+#include <set>
 
 // forward declaration
 class Table;
@@ -73,7 +74,22 @@ public:
 	{
 		this->alignment = alignment;
 	}
+	
+	void ResetEvaluated(std::set<CellContent*>& functionMap)
+	{
+		content->ResetEvaluated(functionMap);
+	}
 
+	bool Evaluate()
+	{
+		return content->Evaluate();
+	}
+	
+	bool IsEvaluated() const
+	{
+		return content->IsEvaluated();
+	}
+	
 private:
 	std::unique_ptr<CellContent> content;
 	Alignment alignment;

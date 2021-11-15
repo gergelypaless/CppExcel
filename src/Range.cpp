@@ -10,3 +10,9 @@ void Range::CalculateTopLeftAndBottomRightCorners(double cell1Row, double cell1C
 	topLeft = std::make_pair(middlePoint.first - rectangleWidth / 2, middlePoint.second - rectangleHeight / 2);
 	bottomRight = std::make_pair(std::round(middlePoint.first + rectangleWidth / 2), std::round(middlePoint.second + rectangleHeight / 2));
 }
+
+std::ofstream& operator<<(std::ofstream& ofs, const Range& range)
+{
+	range.SaveToFile(ofs);
+	return ofs;
+}

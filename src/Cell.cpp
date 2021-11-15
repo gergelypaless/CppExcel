@@ -28,7 +28,7 @@ void Cell::Clear()
 
 std::string Cell::GetContent() const
 {
-	return content->GetContentValue();
+	return content->GetVisibleContent();
 }
 
 void Cell::SetContent(const std::string& newContent)
@@ -38,7 +38,7 @@ void Cell::SetContent(const std::string& newContent)
 
 void Cell::Print(std::ostream& os, size_t cellMaxLength) const
 {
-	const auto& myContent = content->GetContentValue();
+	const auto& myContent = content->GetVisibleContent();
 	if (alignment == Alignment::LEFT)
 		os << myContent << std::string(cellMaxLength - myContent.size(), ' ');
 	else if (alignment == Alignment::RIGHT)
@@ -52,8 +52,8 @@ void Cell:: SaveToFile(std::ofstream& ofs) const
 
 bool Cell::operator<(const Cell& other) const
 {
-	const auto& myContent = content->GetContentValue();
-	const auto& otherContent = other.content->GetContentValue();
+	const auto& myContent = content->GetVisibleContent();
+	const auto& otherContent = other.content->GetVisibleContent();
 	if (IsNumber(myContent) && IsNumber(otherContent))
 	{
 		return ConvertStringToDouble(myContent) < ConvertStringToDouble(otherContent);

@@ -180,6 +180,8 @@ private:
 	void SortRowsASC(size_t colNumber);
 	void SortRowsDESC(size_t colNumber);
 	
+	void EvaluateCells();
+	
 private:
 	std::vector<Row> rows;
 };

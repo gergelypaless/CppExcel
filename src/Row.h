@@ -7,6 +7,7 @@
 #include <ostream>
 #include <fstream>
 #include <algorithm>
+#include <set>
 
 // forward declaration
 class Table;
@@ -106,6 +107,12 @@ public:
 	 * @param amount to grow with
 	 */
 	void Grow(size_t N);
+	
+	void ResetEvaluated(std::set<CellContent*>& functionMap)
+	{
+		for (auto& cell : cells)
+			cell.ResetEvaluated(functionMap);
+	}
 
 private:
 	std::vector<Cell> cells;
