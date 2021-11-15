@@ -75,16 +75,19 @@ public:
 		this->alignment = alignment;
 	}
 	
-	void ResetEvaluated(std::set<CellContent*>& functionMap)
+	/*
+	 * resets the evaluated flag on the cell content
+	 *
+	 * @param functionSet: a set which contains all the cell content which are not evaluated
+	 */
+	void ResetEvaluated(std::set<CellContent*>& functionSet)
 	{
-		content->ResetEvaluated(functionMap);
-	}
-
-	bool Evaluate()
-	{
-		return content->Evaluate();
+		content->ResetEvaluated(functionSet);
 	}
 	
+	/*
+	 * return true if the cell's content is already evaluated
+	 */
 	bool IsEvaluated() const
 	{
 		return content->IsEvaluated();

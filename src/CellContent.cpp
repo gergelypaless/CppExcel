@@ -75,7 +75,6 @@ long double SumFunctionCellContent::EvaluateFunction()
 {
 	// all cells in range must be evaluated beforehand!!!
 	
-	valid = true;
 	long double sum = 0;
 	try
 	{
@@ -101,8 +100,6 @@ void SumFunctionCellContent::SaveToFile(std::ofstream& ofs) const
 
 long double AvgFunctionCellContent::EvaluateFunction()
 {
-	valid = true;
-	
 	long double sum = 0;
 	size_t count = 0;
 	try
@@ -132,8 +129,6 @@ void AvgFunctionCellContent::SaveToFile(std::ofstream& ofs) const
 
 long double MinFunctionCellContent::EvaluateFunction()
 {
-	valid = true;
-	
 	long double min = std::numeric_limits<long double>::max();
 	try
 	{
@@ -163,8 +158,6 @@ void MinFunctionCellContent::SaveToFile(std::ofstream& ofs) const
 
 long double MaxFunctionCellContent::EvaluateFunction()
 {
-	valid = true;
-	
 	long double max = 0;
 	try
 	{

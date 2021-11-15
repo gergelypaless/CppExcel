@@ -153,6 +153,12 @@ public:
 	Row& operator[](size_t idx);
 	const Row& operator[](size_t idx) const;
 	
+	/*
+	 * this function goes through all the cells which are inside a range and calls a callback function
+	 *
+	 * @param range: the range to iterate over on
+	 * @param someFunction: callback function
+	 */
 	void Traverse(const Range& range, std::invocable<Cell&> auto someFunction)
 	{
 		auto [topLeftRow, topLeftCol] = range.GetTopLeftCorner();
@@ -180,6 +186,9 @@ private:
 	void SortRowsASC(size_t colNumber);
 	void SortRowsDESC(size_t colNumber);
 	
+	/*
+	 * evaluates all cells
+	 */
 	void EvaluateCells();
 	
 private:

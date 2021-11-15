@@ -45,6 +45,11 @@ public:
 		return bottomRight;
 	}
 	
+	/*
+	 * save a range to file
+	 *
+	 * @param ofs: the output file stream
+	 */
 	void SaveToFile(std::ofstream& ofs) const
 	{
 		ofs << ConvertNumberToColLetter(topLeft.second) << topLeft.first  << ":" << ConvertNumberToColLetter(bottomRight.second) << bottomRight.first;
@@ -61,4 +66,10 @@ private:
 	std::pair<size_t, size_t> bottomRight;
 };
 
+/*
+ * helper function to save a range to a file
+ *
+ * @param ofs: output file stream
+ * @param range: the range to write out
+ */
 std::ofstream& operator<<(std::ofstream& ofs, const Range& range);

@@ -13,7 +13,9 @@
 // forward declaration
 class Table;
 
-
+/*
+ * represents a cells content
+ */
 class CellContent
 {
 public:
@@ -30,18 +32,39 @@ public:
 		return visibleContent;
 	}
 	
+	/*
+	 * saves a cell content to file
+	 *
+	 * @param ofs: output file stream
+	 */
 	virtual void SaveToFile(std::ofstream& ofs) const = 0;
 
+	/*
+	 * evaluates a cell content
+	 */
 	virtual bool Evaluate() = 0;
 	
-	virtual void ResetEvaluated(std::set<CellContent*>&) = 0;
+	/*
+	 * resets the flag on a cell content
+	 *
+	 * @param: a set which contains all the cell content which are not evaluated
+	 */
+	virtual void ResetEvaluated(std::set<CellContent*>& functionSet) = 0;
 	
+	/*
+	 * getter for the evaluated flag
+	 */
 	bool IsEvaluated() const
 	{
 		return evaluated;
 	}
 
 protected:
+	/*
+	 * sets the visible content of the cell content instance
+	 *
+	 * @param content: the new visible content
+	 */
 	bool SetVisibleContent(const std::string& content)
 	{
 		visibleContent = content;
@@ -50,12 +73,14 @@ protected:
 	}
 
 private:
-	std::string visibleContent;
+	std::string visibleContent; // the text which you see in the table on the screen
 protected:
 	bool evaluated = false;
 };
 
-
+/*
+ * represents a simple string cell content
+ */
 class StringCellContent : public CellContent
 {
 public:
@@ -80,10 +105,13 @@ private:
 	std::string content;
 };
 
+/*
+ * represents a function cell content, which should be evaluated before printing
+ */
 class FunctionCellContent : public CellContent
 {
 public:
-	FunctionCellContent(const std::string& functionStr, Table& table) : range(ExtractRange(functionStr)), valid(true), table(table) {}
+	FunctionCellContent(const std::string& functionStr, Table& table) : range(ExtractRange(functionStr)), table(table) {}
 	
 	virtual long double EvaluateFunction() = 0;
 	
@@ -91,33 +119,40 @@ public:
 	{
 		evaluated = false;
 		functionMap.insert(this);
-		valid = false;
 	}
 	
 	bool Evaluate() override;
 	
+	/*
+	 * function to set the content of this cell content if it is in a cycle
+	 */
 	void SetInCycle()
 	{
-		valid = false;
-		SetVisibleContent("#CYCLE!");
+		Invalidate("#CYCLE!");
 	}
 	
 private:
+	/*
+	 * helper function to get the range from a string
+	 *
+	 * @param: string to extract the range from
+	 */
 	static Range ExtractRange(const std::string& functionStr);
 	
 protected:
 	void Invalidate(const std::string& errorMessage)
 	{
-		valid = false;
 		SetVisibleContent(errorMessage);
 	}
 	
 protected:
 	Range range;
-	mutable bool valid;
 	Table& table;
 };
 
+/*
+ * below: different kind of function cell content classes: SUM, AVG, MIN, MAX
+ */
 class SumFunctionCellContent : public FunctionCellContent
 {
 public:
@@ -150,5 +185,8 @@ public:
 	void SaveToFile(std::ofstream& ofs) const override;
 };
 
+/*
+ * operator helper function to print a cell content to file
+ */
 std::ofstream& operator<<(std::ofstream& ofs, const CellContent& cellContent);
 
