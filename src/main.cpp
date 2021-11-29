@@ -1,5 +1,5 @@
 #include "utils.h"
-#include "Table.h"
+#include "TableContainer.h"
 #include "CommandProcessor.h"
 #include "Input.h"
 
@@ -14,18 +14,18 @@ int main(int argc, char** argv)
 {
 	std::cout << argv[0] << std::endl;
 
-	std::unique_ptr<Table> table;
+	TableContainer tableContainer;
 	if (argc > 1)
 	{
 		try
 		{
 			if (argc != 4)
 			{
-				table = Input::ReadFile(argv[1]);
+				Input::ReadFile(tableContainer, argv[1]);
 			}
 			else if (std::string(argv[2]) == "-sep")
 			{
-				table = Input::ReadFile(argv[1], argv[3][0]);
+				Input::ReadFile(tableContainer, argv[1], argv[3][0]);
 			}
 			else
 			{
@@ -41,12 +41,12 @@ int main(int argc, char** argv)
 	}
 	else
 	{
-		table = std::make_unique<Table>();	
+		tableContainer.emplace_back();
 	}
 
-	Input::Read(std::cin, std::cout, *table);
+	Input::Read(tableContainer, std::cin, std::cout);
 	while (!CommandProcessor::ShouldExit())
-		Input::Read(std::cin, std::cout, *table);
+		Input::Read(tableContainer, std::cin, std::cout);
 
 	return 0;
 }

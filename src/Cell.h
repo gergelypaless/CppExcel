@@ -19,7 +19,7 @@ class Cell
 {
 public:
 	explicit Cell(Table& table);
-	Cell(const std::string& content, Table& table);
+	Cell(const std::string& contentStr, Table& table);
 	
 	Cell(const Cell& other) = delete;
 	Cell& operator=(const Cell& other) = delete;

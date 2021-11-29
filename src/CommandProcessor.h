@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Table.h"
+#include "TableContainer.h"
 
 #include <vector>
 #include <string>
@@ -117,15 +118,24 @@ public:
 	 * @param table		the table to work with
 	 */
 	static void ProcessClearCommand(const std::vector<std::string>& commandTokens, Table& table);
-
+	
+	static void ProcessNewSheetCommand(const std::vector<std::string>& commandTokens, TableContainer& tableContainer);
+	
+	static void ProcessOpenCommand(const std::vector<std::string>& commandTokens, TableContainer& tableContainer);
+	
+	static void ProcessCloseCommand(const std::vector<std::string>& commandTokens, TableContainer& tableContainer);
+	
+	static void ProcessTableRenameCommand(const std::vector<std::string>& commandTokens, TableContainer& tableContainer);
+	
 	/*
 	 * calls a specific command function based on the first - name - argument
-	 * 
+	 *
 	 * @param commandTokens		the components of the command
 	 * @param table		the table to work with
 	 */
-	static void ProcessCommand(const std::vector<std::string>& commandTokens, Table& table);
-
+	static void ProcessCommand(const std::vector<std::string>& commandTokens, TableContainer& table);
+	
+	static void ProcessSwitchCommand(const std::vector<std::string>& vector, TableContainer& container);
 };
 
 

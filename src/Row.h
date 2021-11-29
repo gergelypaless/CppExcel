@@ -18,34 +18,6 @@ class Table;
  */
 class Row
 {
-private:
-	static size_t rowLength;
-	static size_t rowMaxLength;
-
-public:
-	/*
-	 * returns the row length in the table
-	 */
-	static size_t GetRowLength();
-
-	/*
-	 * returns the max row length
-	 */
-	static size_t GetRowMaxLength();
-	
-	/*
-	 * increases the row length by N
-	 * 
-	 * @param N		amount to grow the row length with
-	 */
-	static void GrowRowLength(size_t N);
-
-	/*
-	 * increases the row length by N
-	 * 
-	 * @param N		amount to decrease the row length with
-	 */
-	static void DecreaseRowLength(size_t N);
 public:
 	Row(Table* table);
 	Row(const Row& other) = delete;

@@ -5,9 +5,10 @@
 #include <cassert>
 
 
-void Input::Read(std::istream& is, std::ostream& os, Table& table)
+void Input::Read(TableContainer& tableContainer, std::istream& is, std::ostream& os)
 {
-	table.Print(os);
+	tableContainer.GetCurrentTable().Print(os);
+	tableContainer.PrintTableNames(os);
 	os << ">>> ";
 
 	std::string input;
@@ -15,7 +16,7 @@ void Input::Read(std::istream& is, std::ostream& os, Table& table)
 	auto tokens = SplitString(input, " ");
 	try
 	{
-		CommandProcessor::ProcessCommand(tokens, table);
+		CommandProcessor::ProcessCommand(tokens, tableContainer);
 	}
 	catch (const std::invalid_argument& ex)
 	{
@@ -28,27 +29,35 @@ void Input::Read(std::istream& is, std::ostream& os, Table& table)
 	}
 }
 
-std::unique_ptr<Table> Input::ReadFile(const std::string& filename, char sep)
+void Input::ReadFile(TableContainer& tableContainer, const std::string& filename, char sep)
 {
-	std::unique_ptr<Table> table = std::make_unique<Table>(); // table with 1 row, 1 col
-
+	auto fileNameWithExtension = SplitString(filename, '/').back();
+	auto fileNameTokens = SplitString(fileNameWithExtension, '.');
+	std::string tableName;
+	for (size_t i = 0; i < fileNameTokens.size() - 1; ++i)
+	{
+		tableName += fileNameTokens[i];
+	}
+	
 	std::ifstream is(filename);
 	if (!is.good())
 		throw std::invalid_argument("Error: there is no such file as '" + filename + "'");
-
+	
+	tableContainer.emplace_back(std::make_unique<Table>(tableName));
+	tableContainer.SetCurrentTable(tableContainer.size() - 1);
+	auto& table = tableContainer.GetCurrentTable();
+	
 	std::string input;
 	while (std::getline(is, input))
 	{
 		auto tokens = SplitString(input, sep);
-		if (tokens.size() > Row::GetRowLength())
-			table->AddCols(tokens.size() - Row::GetRowLength());
+		if (tokens.size() > table.GetRowLength())
+			table.AddCols(tokens.size() - table.GetRowLength());
 
-		for (size_t i = 0; i < Row::GetRowLength(); i++)
-			table->LastRow()[i].SetContent(tokens[i]);
+		for (size_t i = 0; i < table.GetRowLength(); i++)
+			table.LastRow()[i].SetContent(tokens[i]);
 
-		table->AddRows(1);
+		table.AddRows(1);
 	}
-	table->DeleteRow(table->LastRowIndex());
-
-	return table;
+	table.DeleteRow(table.LastRowIndex());
 }

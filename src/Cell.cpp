@@ -7,7 +7,7 @@ Cell::Cell(Table& table) : content(CellContent::Create("", table)), alignment(Al
 
 }
 
-Cell::Cell(const std::string& content, Table& table) : content(CellContent::Create(content, table)), alignment(Alignment::LEFT), table(table)
+Cell::Cell(const std::string& contentStr, Table& table) : content(CellContent::Create(contentStr, table)), alignment(Alignment::LEFT), table(table)
 {
 
 }

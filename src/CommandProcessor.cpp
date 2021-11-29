@@ -7,6 +7,7 @@
 #include "SortDirection.h"
 #include "Alignment.h"
 #include "Range.h"
+#include "Input.h"
 
 
 bool CommandProcessor::shouldExit = false;
@@ -212,28 +213,74 @@ void CommandProcessor::ProcessClearCommand(const std::vector<std::string>& comma
 	table.ClearRange(range);
 }
 
-void CommandProcessor::ProcessCommand(const std::vector<std::string>& commandTokens, Table& table)
+void CommandProcessor::ProcessNewSheetCommand(const std::vector<std::string>& commandTokens, TableContainer& tableContainer)
+{
+	tableContainer.emplace_back(std::make_unique<Table>(commandTokens[2]));
+	tableContainer.SetCurrentTable(tableContainer.size() - 1);
+}
+
+void CommandProcessor::ProcessOpenCommand(const std::vector<std::string>& commandTokens, TableContainer& tableContainer)
+{
+	if (commandTokens.size() > 2)
+		Input::ReadFile(tableContainer, commandTokens[1], commandTokens[3][0]);
+	else
+		Input::ReadFile(tableContainer, commandTokens[1]);
+}
+
+void CommandProcessor::ProcessCloseCommand(const std::vector<std::string>& commandTokens, TableContainer& tableContainer)
+{
+	auto N = ConvertStringToUInt(commandTokens[1]);
+	tableContainer.erase(tableContainer.begin() + N);
+	
+	if (tableContainer.empty())
+		shouldExit = true;
+	
+	tableContainer.CorrectOutOfRangeCurrentTableIndex();
+}
+
+void CommandProcessor::ProcessTableRenameCommand(const std::vector<std::string>& commandTokens, TableContainer& tableContainer)
+{
+	auto N = ConvertStringToUInt(commandTokens[1]);
+	tableContainer[N]->Rename(commandTokens[2]);
+}
+
+void CommandProcessor::ProcessSwitchCommand(const std::vector<std::string>& commandTokens, TableContainer& tableContainer)
+{
+	tableContainer.SetCurrentTable(ConvertStringToUInt(commandTokens[1]));
+}
+
+void CommandProcessor::ProcessCommand(const std::vector<std::string>& commandTokens, TableContainer& tableContainer)
 {
 	if (commandTokens[0] == "edit")
-		ProcessEditCommand(commandTokens, table);
+		ProcessEditCommand(commandTokens, tableContainer.GetCurrentTable());
 	else if (commandTokens[0] == "add")
-		ProcessAddCommand(commandTokens, table);
+		ProcessAddCommand(commandTokens, tableContainer.GetCurrentTable());
 	else if (commandTokens[0] == "delete")
-		ProcessDeleteCommand(commandTokens, table);
+		ProcessDeleteCommand(commandTokens, tableContainer.GetCurrentTable());
 	else if (commandTokens[0] == "insert")
-		ProcessInsertCommand(commandTokens, table);
+		ProcessInsertCommand(commandTokens, tableContainer.GetCurrentTable());
 	else if (commandTokens[0] == "exit")
 		shouldExit = true;
 	else if (commandTokens[0] == "save")
-		ProcessSaveCommand(commandTokens, table);
+		ProcessSaveCommand(commandTokens, tableContainer.GetCurrentTable());
 	else if (commandTokens[0] == "sort" && commandTokens[1] == "by")
-		ProcessSortCommand(commandTokens, table);
+		ProcessSortCommand(commandTokens, tableContainer.GetCurrentTable());
 	else if (commandTokens[0] == "swap")
-		ProcessSwapCommand(commandTokens, table);
+		ProcessSwapCommand(commandTokens, tableContainer.GetCurrentTable());
 	else if (commandTokens[0] == "align")
-		ProcessAlignCommand(commandTokens, table);
+		ProcessAlignCommand(commandTokens, tableContainer.GetCurrentTable());
 	else if (commandTokens[0] == "clear")
-		ProcessClearCommand(commandTokens, table);
+		ProcessClearCommand(commandTokens, tableContainer.GetCurrentTable());
+	else if (commandTokens[0] == "new" && commandTokens[1] == "sheet")
+		ProcessNewSheetCommand(commandTokens, tableContainer);
+	else if (commandTokens[0] == "open")
+		ProcessOpenCommand(commandTokens, tableContainer);
+	else if (commandTokens[0] == "close")
+		ProcessCloseCommand(commandTokens, tableContainer);
+	else if (commandTokens[0] == "rename")
+		ProcessTableRenameCommand(commandTokens, tableContainer);
+	else if (commandTokens[0] == "switch")
+		ProcessSwitchCommand(commandTokens, tableContainer);
 	else
 		throw std::invalid_argument("Error: unknown command");
 }

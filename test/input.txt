@@ -15,4 +15,14 @@ edit A3 =MIN(B1:C3)
 edit A4 =MAX(B1:C3)
 edit B1 =SUM(A1:B4)
 edit B2 =AVG(C2:E5)
+new sheet mySheet
+add 2 cols
+edit B2 test
+edit C1 text
+open ../../test/addresses.csv -sep ,
+close 1
+rename 0 myTestTable
+switch 0
+switch 1
+close 0
 exit

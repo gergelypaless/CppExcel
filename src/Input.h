@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Table.h"
+#include "TableContainer.h"
 
 #include <istream>
 #include <ostream>
@@ -17,7 +17,7 @@ public:
 	 * @param os	the ostream to write information to
 	 * @param table		the table to work with
 	 */
-	static void Read(std::istream& is, std::ostream& os, Table& table);
+	static void Read(TableContainer& tableContainer, std::istream& is, std::ostream& os);
 
 	/*
 	 * reads a file and parses the content to a table
@@ -25,6 +25,6 @@ public:
 	 * @param filename		the file'S name
 	 * @param sep	column separator
 	 */
-	static std::unique_ptr<Table> ReadFile(const std::string& filename, char sep = ';');
+	static void ReadFile(TableContainer& tableContainer, const std::string& filename, char sep = ';');
 
 };
