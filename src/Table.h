@@ -8,7 +8,7 @@
 #include <vector>
 #include <fstream>
 #include <algorithm>
-#include <concepts>
+#include <functional>
 
 /*
  * this class represents a table
@@ -191,7 +191,7 @@ public:
 	 * @param range: the range to iterate over on
 	 * @param someFunction: callback function
 	 */
-	void Traverse(const Range& range, std::invocable<Cell&> auto someFunction)
+	void Traverse(const Range& range, const std::function<void(Cell&)>& someFunction)
 	{
 		auto [topLeftRow, topLeftCol] = range.GetTopLeftCorner();
 		auto [bottomRightRow, bottomRightCol] = range.GetBottomRightCorner();
@@ -200,7 +200,7 @@ public:
 				someFunction(rows[i][j]);
 	}
 	
-	void Traverse(const Range& range, std::invocable<const Cell&> auto someFunction) const
+	void Traverse(const Range& range, const std::function<void(const Cell&)>& someFunction) const
 	{
 		auto [topLeftRow, topLeftCol] = range.GetTopLeftCorner();
 		auto [bottomRightRow, bottomRightCol] = range.GetBottomRightCorner();
