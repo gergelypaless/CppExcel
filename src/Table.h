@@ -7,6 +7,7 @@
 #include <vector>
 #include <fstream>
 #include <algorithm>
+#include <concepts>
 
 /*
  * this class represents a table
