@@ -1,41 +1,12 @@
 #include "Row.h"
+#include "Table.h"
 
 #include <sstream>
 
-size_t Row::rowLength = 1;
-size_t Row::rowMaxLength = 26;
-
-
-size_t Row::GetRowLength()
-{
-	return rowLength;
-}
-
-size_t Row::GetRowMaxLength()
-{
-	return rowMaxLength;
-}
-
-void Row::GrowRowLength(size_t N)
-{
-	if (rowLength + N > rowMaxLength)
-		throw std::invalid_argument("Error: you cannot add that many columns to the table. The maximum is 26.");
-	
-	rowLength += N;
-}
-
-void Row::DecreaseRowLength(size_t N)
-{
-	if (rowLength - N < 1)
-		throw std::invalid_argument("Error: you are trying to delete too many columns");
-
-	rowLength -= N;
-}
-
 Row::Row(Table* table) : table(table)
 {
-	cells.reserve(rowMaxLength);
-	for (size_t i = 0; i < rowLength; ++i)
+	cells.reserve(Table::GetRowMaxLength());
+	for (size_t i = 0; i < table->GetRowLength(); ++i)
 		cells.emplace_back(*table);
 }
 

@@ -4,6 +4,7 @@
 #include "SortDirection.h"
 #include "Range.h"
 
+#include <utility>
 #include <vector>
 #include <fstream>
 #include <algorithm>
@@ -14,8 +15,38 @@
  */
 class Table
 {
+private:
+	size_t rowLength = 1;
+	static size_t rowMaxLength;
+
+public:
+	/*
+	 * returns the row length in the table
+	 */
+	size_t GetRowLength() const;
+	
+	/*
+	 * returns the max row length
+	 */
+	static size_t GetRowMaxLength();
+	
+	/*
+	 * increases the row length by N
+	 *
+	 * @param N		amount to grow the row length with
+	 */
+	void GrowRowLength(size_t N);
+	
+	/*
+	 * increases the row length by N
+	 *
+	 * @param N		amount to decrease the row length with
+	 */
+	void DecreaseRowLength(size_t N);
+	
 public:
 	Table();
+	explicit Table(std::string tableName);
 	
 	/*
 	 * adds N rows
@@ -178,6 +209,9 @@ public:
 				someFunction(rows[i][j]);
 	}
 	
+	const std::string& GetName() const;
+	void Rename(const std::string& newName);
+	
 private:
 	std::pair<std::vector<size_t>, size_t> CalculateColsWidth() const;
 	
@@ -194,4 +228,5 @@ private:
 	
 private:
 	std::vector<Row> rows;
+	std::string tableName;
 };

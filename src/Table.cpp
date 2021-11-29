@@ -6,7 +6,39 @@
 #include <set>
 
 
-Table::Table()
+size_t Table::rowMaxLength = 26;
+
+
+size_t Table::GetRowLength() const
+{
+	return rowLength;
+}
+
+size_t Table::GetRowMaxLength()
+{
+	return rowMaxLength;
+}
+
+void Table::GrowRowLength(size_t N)
+{
+	if (rowLength + N > rowMaxLength)
+		throw std::invalid_argument("Error: you cannot add that many columns to the table. The maximum is 26.");
+	
+	rowLength += N;
+}
+
+void Table::DecreaseRowLength(size_t N)
+{
+	if (rowLength - N < 1)
+		throw std::invalid_argument("Error: you are trying to delete too many columns");
+	
+	rowLength -= N;
+}
+
+
+Table::Table() : Table("Table") { }
+
+Table::Table(std::string tableName) : tableName(std::move(tableName))
 {
 	rows.emplace_back(this);
 }
@@ -19,7 +51,7 @@ void Table::AddRows(size_t N)
 
 void Table::AddCols(size_t N)
 {
-	Row::GrowRowLength(N);
+	GrowRowLength(N);
 	for (Row& row : rows)
 		row.Grow(N);
 }
@@ -36,12 +68,12 @@ void Table::DeleteRow(size_t rowIndex)
 
 void Table::DeleteCol(size_t colIndex)
 {
-	if (Row::GetRowLength() == 1)
+	if (GetRowLength() == 1)
 		throw std::invalid_argument("Error: you are trying to delete too many cols.");
-	else if (Row::GetRowLength() <= colIndex)
+	else if (GetRowLength() <= colIndex)
 		throw std::invalid_argument("Error: you are trying to delete a col which does not exists.");
 
-	Row::DecreaseRowLength(1);
+	DecreaseRowLength(1);
 	for (Row& row : rows)
 		row.DeleteCell(colIndex);
 }
@@ -63,12 +95,12 @@ void Table::InsertRowsAfter(size_t index, size_t N)
 
 void Table::InsertColsBefore(size_t index, size_t N)
 {
-	if (index >= Row::GetRowLength())
+	if (index >= GetRowLength())
 		throw std::invalid_argument("Error: you cannot insert columns there. Specified index is too big.");
-	else if (Row::GetRowLength() + N > Row::GetRowMaxLength())
+	else if (GetRowLength() + N > GetRowMaxLength())
 		throw std::invalid_argument("Error: you are trying to insert too many columns.");
 
-	Row::GrowRowLength(N);
+	GrowRowLength(N);
 	for (Row& row : rows)
 		row.InsertColsBefore(index, N);
 }
@@ -82,10 +114,10 @@ void Table::InsertColsAfter(size_t index, size_t N)
 std::pair<std::vector<size_t>, size_t> Table::CalculateColsWidth() const
 {
 	std::vector<size_t> colWidths;
-	colWidths.reserve(Row::GetRowLength());
+	colWidths.reserve(GetRowLength());
 
 	size_t all = 0;
-	for (size_t i = 0; i < Row::GetRowLength(); i++)
+	for (size_t i = 0; i < GetRowLength(); i++)
 	{
 		size_t longest = 0;
 		for (const Row& row : rows)
@@ -94,9 +126,14 @@ std::pair<std::vector<size_t>, size_t> Table::CalculateColsWidth() const
 				longest = row[i].GetContent().size();
 		}
 		if (longest == 0)
+		{
+			longest = 1;
 			colWidths.push_back(1);
+		}
 		else
+		{
 			colWidths.push_back(longest);
+		}
 		all += longest;
 	}
 	return { colWidths, all };
@@ -140,12 +177,12 @@ void Table::Print(std::ostream& os)
 	size_t firstColWidth = StringLengthOf(rows.size());
 
 	os << "Table:\n" << std::string(firstColWidth, ' ');
-	for (size_t i = 0; i < Row::GetRowLength(); ++i)
+	for (size_t i = 0; i < GetRowLength(); ++i)
 		os << "|" << ConvertNumberToColLetter(i) << std::string(colWidths[i] - 1, ' ');
 	os << "|\n";
 	
 	//		  spaces          the '|' characters   last '|' character
-	allSum += firstColWidth + Row::GetRowLength() + 1;
+	allSum += firstColWidth + GetRowLength() + 1;
 	for (size_t i = 0; i < rows.size(); ++i)
 	{
 		os << std::string(allSum, '-') << '\n';
@@ -213,7 +250,7 @@ void Table::SaveToFile(std::ofstream& ofs, char sep) const
 void Table::SortColsASC(size_t rowNumber)
 {
 	const Row& rowToSortBy = rows[rowNumber];
-	size_t n = Row::GetRowLength();
+	size_t n = GetRowLength();
 	size_t i, j;
 	for (i = 0; i < n - 1; i++)
 	{
@@ -233,7 +270,7 @@ void Table::SortColsASC(size_t rowNumber)
 void Table::SortColsDESC(size_t rowNumber)
 {
 	const Row& rowToSortBy = rows[rowNumber];
-	size_t n = Row::GetRowLength();
+	size_t n = GetRowLength();
 	size_t i, j;
 	for (i = 0; i < n - 1; i++)
 	{
@@ -262,5 +299,15 @@ void Table::SortRowsDESC(size_t colNumber)
 	std::sort(rows.begin(), rows.end(), [colNumber](const Row& rowLeft, const Row& rowRight) {
 		return rowRight[colNumber] < rowLeft[colNumber];
 	});
+}
+
+void Table::Rename(const std::string& newName)
+{
+	tableName = newName;
+}
+
+const std::string& Table::GetName() const
+{
+	return tableName;
 }
 
