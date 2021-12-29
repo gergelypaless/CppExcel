@@ -43,7 +43,7 @@ std::unique_ptr<Table> Input::ReadFile(const std::string& filename, char sep)
 		if (tokens.size() > Row::GetRowLength())
 			table->AddCols(tokens.size() - Row::GetRowLength());
 
-		for (size_t i = 0; i < Row::GetRowLength(); i++)
+		for (size_t i = 0; i < tokens.size(); i++)
 			table->LastRow()[i].SetContent(tokens[i]);
 
 		table->AddRows(1);
