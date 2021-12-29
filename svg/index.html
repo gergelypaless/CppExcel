@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0px;
+        }
+
+        #svg {
+            display: block;
+            margin: auto;
+            margin-top: 100px;
+            border: 1px solid red;
+        }
+
+        .bar:hover {
+            fill: darkgray;
+        }
+
+        .axis {
+            font: 10px sans-serif;
+        }
+
+        .axis path,
+        .axis line {
+            fill: none;
+            stroke: #000;
+            shape-rendering: crispEdges;
+        }
+    </style>
+</head>
+
+<body>
+    <svg width="960" height="600" id="svg">
+        <g transform="translate(40,20)">
+            <g class="axis" transform="translate(0,450)">
+                <g transform="translate(5,0)">
+                    <rect class="bar" x="0" width="30" y="-290" height="290" fill="red"/>
+                    <rect class="bar" x="32" width="30" y="-53" height="53" fill="green"/>
+                    <text dy=".71em" y="9" x="31" style="text-anchor: middle;">A</text>
+                </g>
+                <g transform="translate(74,0)">
+                    <rect class="bar" x="0" width="30" y="-290" height="290" fill="red"/>
+                    <rect class="bar" x="32" width="30" y="-53" height="53" fill="green"/>
+                    <text dy=".71em" y="9" x="31" style="text-anchor: middle;">B</text>
+                </g>
+                <g transform="translate(143,0)">
+                    <rect class="bar" x="0" width="30" y="-290" height="290" fill="red"/>
+                    <rect class="bar" x="32" width="30" y="-53" height="53" fill="green"/>
+                    <text dy=".71em" y="9" x="31" style="text-anchor: middle;">C</text>
+                </g>
+                <g transform="translate(212,0)">
+                    <rect class="bar" x="0" width="30" y="-290" height="290" fill="red"/>
+                    <rect class="bar" x="32" width="30" y="-53" height="53" fill="green"/>
+                    <text dy=".71em" y="9" x="31" style="text-anchor: middle;">D</text>
+                </g>
+                <path class="domain" d="M0,6V0H900V6"/>
+            </g>
+            <g class="axis">
+                <g transform="translate(0,450)">
+                    <text dy=".32em" x="-9" y="0" style="text-anchor: end;">0%</text>
+                </g>
+                <g transform="translate(0,405)">
+                    <text dy=".32em" x="-9" y="0" style="text-anchor: end;">1%</text>
+                </g>
+                <g transform="translate(0,360)">
+                    <text dy=".32em" x="-9" y="0" style="text-anchor: end;">2%</text>
+                </g>
+                <g transform="translate(0,315)">
+                    <text dy=".32em" x="-9" y="0" style="text-anchor: end;">3%</text>
+                </g>
+                <g transform="translate(0,270)">
+                    <text dy=".32em" x="-9" y="0" style="text-anchor: end;">4%</text>
+                </g>
+                <g transform="translate(0,225)">
+                    <text dy=".32em" x="-9" y="0" style="text-anchor: end;">5%</text>
+                </g>
+                <g transform="translate(0,180)">
+                    <text dy=".32em" x="-9" y="0" style="text-anchor: end;">6%</text>
+                </g>
+                <g transform="translate(0,135)">
+                    <text dy=".32em" x="-9" y="0" style="text-anchor: end;">7%</text>
+                </g>
+                <g transform="translate(0,90)">
+                    <text dy=".32em" x="-9" y="0" style="text-anchor: end;">8%</text>
+                </g>
+                <g transform="translate(0,45)">
+                    <text dy=".32em" x="-9" y="0" style="text-anchor: end;">9%</text>
+                </g>
+                <g transform="translate(0,0)">
+                    <text dy=".32em" x="-9" y="0" style="text-anchor: end;">10%</text>
+                </g>
+                <path class="domain" d="M-6,0H0V450H-6"/>
+                <text transform="rotate(-90)" y="6" dy=".71em" style="text-anchor: end;">Value</text>
+            </g>
+        </g>
+        <g transform="translate(40,510)">
+            <g transform="translate(0, 0)">
+                <rect width="20" height="20" fill="red" stroke="black"/>
+                <text x="30" y="15">Buda</text>
+            </g>
+            <g transform="translate(200, 0)">
+                <rect width="20px" height="20px" fill="green" stroke="black"/>
+                <text x="30px" y="15px">Pest</text>
+            </g>
+            <g transform="translate(400, 0)">
+                <rect width="20px" height="20px" fill="blue" stroke="black"/>
+                <text x="30px" y="15px">Pécs</text>
+            </g>
+            <g transform="translate(600, 0)">
+                <rect width="20px" height="20px" fill="blue" stroke="black"/>
+                <text x="30px" y="15px">Pécs</text>
+            </g>
+            <g transform="translate(0, 40)">
+                <rect width="20px" height="20px" fill="blue" stroke="black"/>
+                <text x="30px" y="15px">Pécs</text>
+            </g>
+            <g transform="translate(200, 40)">
+                <rect width="20px" height="20px" fill="blue" stroke="black"/>
+                <text x="30px" y="15px">Pécs</text>
+            </g>
+            <g transform="translate(400, 40)">
+                <rect width="20px" height="20px" fill="blue" stroke="black"/>
+                <text x="30px" y="15px">Pécs</text>
+            </g>
+        </g>
+    </svg>
+</body>
+
+</html>

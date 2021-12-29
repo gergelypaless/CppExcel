@@ -212,6 +212,12 @@ void CommandProcessor::ProcessClearCommand(const std::vector<std::string>& comma
 	table.ClearRange(range);
 }
 
+void CommandProcessor::ProcessBarchartCommand(const std::vector<std::string>& commandTokens, Table& table)
+{
+	auto range = Range::Create(commandTokens[1]);
+	
+}
+
 void CommandProcessor::ProcessCommand(const std::vector<std::string>& commandTokens, Table& table)
 {
 	if (commandTokens[0] == "edit")
@@ -234,6 +240,8 @@ void CommandProcessor::ProcessCommand(const std::vector<std::string>& commandTok
 		ProcessAlignCommand(commandTokens, table);
 	else if (commandTokens[0] == "clear")
 		ProcessClearCommand(commandTokens, table);
+	else if (commandTokens[0] == "barchart")
+		ProcessBarchartCommand(commandTokens, table);
 	else
 		throw std::invalid_argument("Error: unknown command");
 }

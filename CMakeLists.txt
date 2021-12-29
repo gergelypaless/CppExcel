@@ -37,7 +37,7 @@ set(SOURCES
         src/Row.cpp
         src/Table.cpp
         src/utils.cpp
-        src/CellContent.cpp)
+        src/CellContent.cpp src/BarchartDiagram.h src/BarchartDiagram.cpp src/Color.h)
 
 add_executable(${EXECUTABLE_NAME} ${HEADERS} ${SOURCES})
 

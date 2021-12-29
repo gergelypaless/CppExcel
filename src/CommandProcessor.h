@@ -117,6 +117,16 @@ public:
 	 * @param table		the table to work with
 	 */
 	static void ProcessClearCommand(const std::vector<std::string>& commandTokens, Table& table);
+	
+	/*
+	 * commandToken:
+	 *      index 0: command name 1 - "clear"
+	 *		index 1: cell
+	 *
+	 * @param commandTokens		the components of the command
+	 * @param table		the table to work with
+	 */
+	static void ProcessBarchartCommand(const std::vector<std::string>& commandTokens, Table& table);
 
 	/*
 	 * calls a specific command function based on the first - name - argument
