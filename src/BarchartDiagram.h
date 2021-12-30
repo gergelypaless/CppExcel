@@ -94,7 +94,6 @@ public:
 		final += groupElementStringTokens[tokenIter++] + std::to_string(textX);
 		final += groupElementStringTokens[tokenIter++] + group.name;
 		final += groupElementStringTokens[tokenIter++];
-		std::cout << "final: " << final << std::endl;
 		return final;
 	}
 	
@@ -111,7 +110,6 @@ public:
 			final += CreateGroup(groups[i], groupMetaData, i, barCountInOneGroup, maxDisplayableValue);
 		}
 		final += xAxisElementStringTokens[2];
-		std::cout << final << std::endl;
 		return final;
 	}
 	

@@ -281,5 +281,9 @@ void CommandProcessor::ProcessCommand(const std::vector<std::string>& commandTok
 	else if (commandTokens[0] == "barchart")
 		ProcessBarchartCommand(commandTokens, table);
 	else
-		throw std::invalid_argument("Error: unknown command");
+	{
+		std::string command;
+		std::for_each(commandTokens.begin(), commandTokens.end(), [&](const auto& token) { command += token; });
+		throw std::invalid_argument("Error: unknown command. Command was: " + command);
+	}
 }
