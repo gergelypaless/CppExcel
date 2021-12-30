@@ -215,10 +215,6 @@ void CommandProcessor::ProcessClearCommand(const std::vector<std::string>& comma
 
 void CommandProcessor::ProcessBarchartCommand(const std::vector<std::string>& commandTokens, Table& table)
 {
-	auto filenameTokens = SplitString(commandTokens[2], ".");
-	std::string justFilename;
-	std::for_each(filenameTokens.begin(), filenameTokens.end() - 1, [&](const auto& token){ justFilename += token; });
-	
 	auto range = Range::Create(commandTokens[1]);
 	BarchartDiagramData barchartDiagramData;
 	barchartDiagramData.barCountInOneGroup = range.GetBottomRightCorner().second - range.GetTopLeftCorner().second;
@@ -249,10 +245,10 @@ void CommandProcessor::ProcessBarchartCommand(const std::vector<std::string>& co
 	for (size_t i = 0; i <= howManyNumbersOnAxisY; ++i)
 		barchartDiagramData.yAxisNumbers.push_back(std::round(spaceBetweenNumbers * i * 1000) / 1000.0);
 	
-	std::ofstream htmlOfs(justFilename + ".html");
+	std::ofstream htmlOfs(commandTokens[2] + ".html");
 	htmlOfs << BarchartDiagram::CreateHtml(barchartDiagramData) << std::endl;
 	
-	std::ofstream svgOfs(justFilename + "." + filenameTokens.back());
+	std::ofstream svgOfs(commandTokens[2] + ".svg");
 	svgOfs << BarchartDiagram::CreateSvg(barchartDiagramData) << std::endl;
 }
 
