@@ -2,6 +2,8 @@
 #include "Table.h"
 #include "CommandProcessor.h"
 #include "Input.h"
+#include "BarchartDiagram.h"
+#include "Color.h"
 
 #include <iostream>
 #include <string>
@@ -14,6 +16,25 @@ int main(int argc, char** argv)
 {
 	std::cout << argv[0] << std::endl;
 
+	BarchartDiagramData data = {
+			3,
+			{
+					{ "laptop", { 1, 2, 3 } },
+					{ "monitor", { 10, 20, 30 } },
+					{ "mouse", { 30, 10, 80 } },
+					{ "pendrive", { 123, 40, 60 }}
+			},
+			{
+					{ "Buda", Color(0) },
+					{ "Pest", Color(1) },
+					{ "Isaszeg", Color(2) },
+					{ "Lisszabon", Color(3) },
+			},
+			{ 0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130 }
+	};
+	
+	std::cout << BarchartDiagram::CreateHtml(data) << std::endl;
+	
 	std::unique_ptr<Table> table;
 	if (argc > 1)
 	{

@@ -12,7 +12,8 @@ enum class Color
 	BROWN,
 	BLACK,
 	WHITE,
-	GREY
+	GREY,
+	END
 };
 
 

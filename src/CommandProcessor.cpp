@@ -7,6 +7,7 @@
 #include "SortDirection.h"
 #include "Alignment.h"
 #include "Range.h"
+#include "BarchartDiagram.h"
 
 
 bool CommandProcessor::shouldExit = false;
@@ -214,8 +215,45 @@ void CommandProcessor::ProcessClearCommand(const std::vector<std::string>& comma
 
 void CommandProcessor::ProcessBarchartCommand(const std::vector<std::string>& commandTokens, Table& table)
 {
-	auto range = Range::Create(commandTokens[1]);
+	auto filenameTokens = SplitString(commandTokens[2], ".");
+	std::string justFilename;
+	std::for_each(filenameTokens.begin(), filenameTokens.end() - 1, [&](const auto& token){ justFilename += token; });
 	
+	auto range = Range::Create(commandTokens[1]);
+	BarchartDiagramData barchartDiagramData;
+	barchartDiagramData.barCountInOneGroup = range.GetBottomRightCorner().second - range.GetTopLeftCorner().second;
+	
+	for (size_t i = range.GetTopLeftCorner().second + 1; i <= range.GetBottomRightCorner().second; ++i)
+	{
+		barchartDiagramData.groupMetaData.push_back({table[range.GetTopLeftCorner().first][i].GetContent(), Color(i % (int)Color::END) });
+	}
+	
+	double maxInDiagram = 0;
+	for (size_t i = range.GetTopLeftCorner().first + 1; i <= range.GetBottomRightCorner().first; ++i)
+	{
+		Group group;
+		for (size_t j = range.GetTopLeftCorner().second + 1; j <= range.GetBottomRightCorner().second; ++j)
+		{
+			// TODO: what if GetContent == ""  ??
+			auto value = ConvertStringToDouble(table[i][j].GetContent());
+			if (value > maxInDiagram)
+				maxInDiagram = value;
+			group.values.push_back(value);
+		}
+		group.name = table[i][range.GetTopLeftCorner().second].GetContent();
+		barchartDiagramData.groups.push_back(group);
+	}
+	
+	size_t howManyNumbersOnAxisY = 14;
+	double spaceBetweenNumbers = (maxInDiagram * 1.10) / howManyNumbersOnAxisY;
+	for (size_t i = 0; i <= howManyNumbersOnAxisY; ++i)
+		barchartDiagramData.yAxisNumbers.push_back(std::round(spaceBetweenNumbers * i * 1000) / 1000.0);
+	
+	std::ofstream htmlOfs(justFilename + ".html");
+	htmlOfs << BarchartDiagram::CreateHtml(barchartDiagramData) << std::endl;
+	
+	std::ofstream svgOfs(justFilename + "." + filenameTokens.back());
+	svgOfs << BarchartDiagram::CreateSvg(barchartDiagramData) << std::endl;
 }
 
 void CommandProcessor::ProcessCommand(const std::vector<std::string>& commandTokens, Table& table)
