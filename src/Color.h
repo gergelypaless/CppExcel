@@ -1,6 +1,7 @@
 #pragma once
 
 #include <unordered_map>
+#include <map>
 
 enum class Color
 {
@@ -16,15 +17,12 @@ enum class Color
 	END
 };
 
+struct ColorHelper
+{
+	static const std::map<const Color, const char*>& GetColorMap();
 
-const std::unordered_map<const Color, const char*> colorMap = {
-		std::make_pair(Color::RED, "red"),
-		std::make_pair(Color::GREEN, "green"),
-		std::make_pair(Color::BLUE, "blue"),
-		std::make_pair(Color::YELLOW, "yellow"),
-		std::make_pair(Color::ORANGE, "orange"),
-		std::make_pair(Color::BROWN, "brown"),
-		std::make_pair(Color::BLACK, "black"),
-		std::make_pair(Color::WHITE, "white"),
-		std::make_pair(Color::GREY, "grey"),
+private:
+	static const std::map<const Color, const char*> colorMap;
 };
+
+

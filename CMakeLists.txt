@@ -10,7 +10,7 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 
 # More warnings
-set(CMAKE_CXX_FLAGS "-Wall -Wextra")
+#set(CMAKE_CXX_FLAGS "-Wall -Wextra")
 
 # optimizing options
 set(CMAKE_CXX_FLAGS_DEBUG "-g")
@@ -42,6 +42,7 @@ set(SOURCES
         src/utils.cpp
         src/CellContent.cpp
         src/BarchartDiagram.cpp
+        src/Color.cpp
         )
 
 add_executable(${EXECUTABLE_NAME} ${HEADERS} ${SOURCES})

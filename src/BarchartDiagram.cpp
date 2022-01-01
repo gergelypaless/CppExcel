@@ -11,7 +11,7 @@ std::string BarchartDiagram::CreateBar(size_t barIndex, double barHeight, Color 
 	size_t x = barIndex * barWidth + barIndex * barSpacing;
 	long y = -(long)barHeight;
 	
-	const char* fill = colorMap.at(color);
+	const char* fill = ColorHelper::GetColorMap().at(color);
 	
 	std::string final =
 			barElementStringTokens[0] + std::to_string(x) + barElementStringTokens[1] + std::to_string(y) +
@@ -112,7 +112,7 @@ std::string BarchartDiagram::CreateColoredInfo(const GroupMetaData& metaData, si
 	
 	size_t translateX = index * bottomTextSpacing;
 	size_t rectSize = bottomRectSize;
-	const char* fill = colorMap.at(metaData.color);
+	const char* fill = ColorHelper::GetColorMap().at(metaData.color);
 	const std::string& content = metaData.name;
 	
 	std::string final = coloredElementStringTokens[0] + std::to_string(translateX) + coloredElementStringTokens[1];
