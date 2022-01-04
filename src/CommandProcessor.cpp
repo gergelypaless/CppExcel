@@ -299,8 +299,6 @@ void CommandProcessor::ProcessCommand(const std::vector<std::string>& commandTok
 		ProcessDeleteCommand(commandTokens, tableContainer.GetCurrentTable());
 	else if (commandTokens[0] == "insert")
 		ProcessInsertCommand(commandTokens, tableContainer.GetCurrentTable());
-	else if (commandTokens[0] == "exit")
-		shouldExit = true;
 	else if (commandTokens[0] == "save")
 		ProcessSaveCommand(commandTokens, tableContainer.GetCurrentTable());
 	else if (commandTokens[0] == "sort" && commandTokens[1] == "by")
@@ -323,6 +321,8 @@ void CommandProcessor::ProcessCommand(const std::vector<std::string>& commandTok
 		ProcessSwitchCommand(commandTokens, tableContainer);
 	else if (commandTokens[0] == "barchart")
 		ProcessBarchartCommand(commandTokens, tableContainer.GetCurrentTable());
+	else if (commandTokens[0] == "exit")
+		shouldExit = true;
 	else
 	{
 		std::string command;
