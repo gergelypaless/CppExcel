@@ -311,8 +311,6 @@ void CommandProcessor::ProcessCommand(const std::vector<std::string>& commandTok
 		ProcessAlignCommand(commandTokens, tableContainer.GetCurrentTable());
 	else if (commandTokens[0] == "clear")
 		ProcessClearCommand(commandTokens, tableContainer.GetCurrentTable());
-	else if (commandTokens[0] == "barchart")
-		ProcessBarchartCommand(commandTokens, table);
 	else if (commandTokens[0] == "new" && commandTokens[1] == "sheet")
 		ProcessNewSheetCommand(commandTokens, tableContainer);
 	else if (commandTokens[0] == "open")
@@ -323,6 +321,8 @@ void CommandProcessor::ProcessCommand(const std::vector<std::string>& commandTok
 		ProcessTableRenameCommand(commandTokens, tableContainer);
 	else if (commandTokens[0] == "switch")
 		ProcessSwitchCommand(commandTokens, tableContainer);
+	else if (commandTokens[0] == "barchart")
+		ProcessBarchartCommand(commandTokens, table);
 	else
 	{
 		std::string command;
