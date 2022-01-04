@@ -322,7 +322,7 @@ void CommandProcessor::ProcessCommand(const std::vector<std::string>& commandTok
 	else if (commandTokens[0] == "switch")
 		ProcessSwitchCommand(commandTokens, tableContainer);
 	else if (commandTokens[0] == "barchart")
-		ProcessBarchartCommand(commandTokens, table);
+		ProcessBarchartCommand(commandTokens, tableContainer.GetCurrentTable());
 	else
 	{
 		std::string command;

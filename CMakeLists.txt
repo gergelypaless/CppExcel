@@ -29,6 +29,7 @@ set(HEADERS
         src/CellContent.h
         src/BarchartDiagram.h
         src/Color.h
+        src/TableContainer.h
         )
 
 set(SOURCES
@@ -43,6 +44,7 @@ set(SOURCES
         src/CellContent.cpp
         src/BarchartDiagram.cpp
         src/Color.cpp
+        src/TableContainer.cpp
         )
 
 add_executable(${EXECUTABLE_NAME} ${HEADERS} ${SOURCES})

@@ -55,7 +55,7 @@ void Input::ReadFile(TableContainer& tableContainer, const std::string& filename
 			table.AddCols(tokens.size() - table.GetRowLength());
 
 		for (size_t i = 0; i < tokens.size(); i++)
-			table->LastRow()[i].SetContent(tokens[i]);
+			table.LastRow()[i].SetContent(tokens[i]);
 
 		table.AddRows(1);
 	}
